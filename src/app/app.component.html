@@ -1,0 +1,142 @@
+<div id="drag-helper"></div>
+<div class="control-section">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12 mt-3">
+        <div class="row align-items-center">
+          <div class="form-group col-12 col-lg-5">
+            <span class="small font-weight-bold">Nome</span>
+            <input class="form-control form-control-sm" id="input-nome" type="text"
+              placeholder="Insira o nome do modelo aqui...">
+          </div>
+          <div class="form-group col-12 col-lg-2">
+            <span class="small font-weight-bold">Tipo</span>
+            <select class="form-control form-control-sm" id="input-select">
+              <option selected disabled>Selecione...</option>
+              <option>Carta de Registro Histórico</option>
+              <option>Folheto de Registro Histórico</option>
+              <option>Certidão de Batismo</option>
+              <option>Certidão de Casamento</option>
+            </select>
+          </div>
+          <div class="col-12 col-md-4 col-lg-1 mt-2">
+            <div class="btn btn-sm btn-primary col-12"><span class="small">Copiar Modelo</span></div>
+          </div>
+          <div class="col-12 col-md-4 col-lg-2 mt-2">
+            <div class="custom-control custom-switch">
+              <input type="checkbox" class="custom-control-input" id="switchQuebraPagina">
+              <label class="custom-control-label small" for="switchQuebraPagina">Quebra página por registro?</label>
+            </div>
+          </div>
+          <div class="col-12 col-md-4 col-lg-2 mt-2">
+            <div class="custom-control custom-switch">
+              <input type="checkbox" class="custom-control-input" id="switchCabecalho">
+              <label class="custom-control-label small" for="switchCabecalho">Exibe cabeçalho?</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-8">
+        <span class="small font-weight-bold">Modelo</span>
+        <ejs-richtexteditor #RTE id='defaultRTE' [value]="valor" (created)='criou()' [toolbarSettings]="tools"
+          [height]="584" [insertImageSettings]="imageSettings">
+        </ejs-richtexteditor>
+      </div>
+      <div class="col-12 col-lg-4">
+        <div class="row">
+          <div class="col-6">
+            <span class="small font-weight-bold">Informações gerais</span>
+            <ejs-listbox [height]="200" id="listboxGeral" [dataSource]='data'>
+            </ejs-listbox>
+          </div>
+          <div class="col-6">
+            <span class="small font-weight-bold">Campos disponíveis</span>
+            <ejs-listbox [height]="200" id="listboxDisponivel" [dataSource]='dataDisponivel'>
+            </ejs-listbox>
+          </div>
+          <div class="col-12 mt-3">
+            <tabset #staticTabs>
+
+              <tab heading="Condições">
+                <div [formGroup]="formCondicao" class="container-fluid container-borda-tabs">
+                  <div class="form-group">
+                    <label class="small mb-0">Caso o campo</label>
+                    <select class="form-control-sm form-control" formControlName="campo">
+                      <option *ngFor="let d of dataDisponivel" [value]="d.text">{{d.text}}</option>
+                    </select>
+                  </div>
+                  <div class="row d-flex align-items-center">
+                    <div class="form-group d-flex justify-content-between col-12 col-md-4">
+                      <div class="d-flex flex-md-column">
+                        <div class="custom-control custom-radio custom-control-inline">
+                          <input type="radio" class="mt-1 mr-1 custom-control-input" id="condicao-igual"
+                            formControlName="condicao" value="=" name="condicao">
+                          <label class="small mb-1 custom-control-label" for="condicao-igual"> For igual a
+                          </label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                          <input type="radio" class="mt-1 mr-1 custom-control-input" id="condicao-diferente"
+                            formControlName="condicao" value="!" name="condicao">
+                          <label class="small mb-1 custom-control-label" for="condicao-diferente"> For diferente de
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-8">
+                      <div class="form-group">
+                        <input type="text" class="form-control form-control-sm" formControlName="textoCondicao">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="small mb-0">Mostre o texto</label>
+                    <input type="text" class="form-control form-control-sm" formControlName="mostrarVerdadeiro">
+                  </div>
+                  <div class="form-group">
+                    <label class="small mb-0">Caso contrário mostre</label>
+                    <input type="text" class="form-control form-control-sm" formControlName="mostrarFalso">
+                  </div>
+                  <div class="row" style="margin-bottom: 6px;">
+                    <div class="offset-md-8 col-md-4">
+                      <div class="btn btn-sm btn-primary w-100" (click)="addCondition()"><span class="small">Adicionar
+                          condição</span></div>
+                    </div>
+                  </div>
+                </div>
+              </tab>
+
+              <tab heading="Preferências de impressão">
+                <div class="container-fluid container-borda-tabs">
+                  <div class="row">
+                    <div class="col-12 col-lg-3">
+                      <div class="form-group">
+                        <label class="small mb-0">Marg. superior</label>
+                        <input type="number" class="form-control form-control-sm">
+                      </div>
+                      <div class="form-group">
+                        <label class="small mb-0">Marg. inferior</label>
+                        <input type="number" class="form-control form-control-sm">
+                      </div>
+                      <div class="form-group">
+                        <label class="small mb-0">Marg. esquerda</label>
+                        <input type="number" class="form-control form-control-sm">
+                      </div>
+                      <div class="form-group">
+                        <label class="small mb-0">Marg. direita</label>
+                        <input type="number" class="form-control form-control-sm">
+                      </div>
+                    </div>
+                    <div class="col-12 col-lg-9">
+                      <img class="img-fluid" src="assets/modeloA4Config.svg">
+                    </div>
+                  </div>
+                </div>
+              </tab>
+            </tabset>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
