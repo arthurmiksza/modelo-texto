@@ -5,6 +5,40 @@
     border-top: unset!important;
 }
 
+.obrigatorio {
+    position: relative;
+    background-color:darkred;
+    color: white;
+    width: 15px;
+    height: 15px;
+    padding: 2px;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 11px;
+    &:after {
+        content: 'Este campo é obrigatório!';
+        width: 140px;
+        padding: 2px;
+        text-align: center;
+        bottom: 0px;
+        left: 0px;
+        position: absolute;
+        color: black;
+        background-color: darkred;
+        border-radius: 10px;
+        color: white;
+        opacity: 0;
+        transition: ease-in 100ms all;
+        font-size: 10px;
+        pointer-events: none;
+    }
+    &:hover {
+        &:after {
+            opacity: 1;
+        }
+    }
+}
+
 ::ng-deep {
     #drag-helper {
         padding: 0px 10px;
